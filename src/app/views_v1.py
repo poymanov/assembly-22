@@ -2,6 +2,7 @@ from app import app
 from flask import jsonify, request
 import app.services.participant as participants_service
 import app.services.json_response as json_response
+import app.services.location as locations_service
 
 
 @app.route('/api/v1/')
@@ -47,3 +48,8 @@ def profile(participant_id):
         result = json_response.build_participant(participant)
 
     return jsonify(result)
+
+
+@app.route('/api/v1/locations', methods=['GET'])
+def locations():
+    return jsonify(json_response.build_locations(locations_service.get_all()))

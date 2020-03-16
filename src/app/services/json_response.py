@@ -1,4 +1,4 @@
-from app.schemas import ParticipantSchema
+from app.schemas import ParticipantSchema, LocationSchema
 
 
 def build_new_participant(participant, participant_password):
@@ -17,6 +17,10 @@ def build_auth_participant(participant, access_token):
     response['access_token'] = access_token
 
     return response
+
+
+def build_locations(locations):
+    return LocationSchema(many=True).dump(locations)
 
 
 def build_error():

@@ -9,3 +9,8 @@ class ParticipantSchema(Schema):
     location = fields.String(required=True)
     about = fields.String(required=True)
 
+
+class LocationSchema(Schema):
+    id = fields.Integer(dump_only=True)
+    code = fields.String(required=True)
+    title = fields.String(required=True)
