@@ -23,6 +23,10 @@ class Participant(db.Model):
     location = db.Column(db.String(255), nullable=False)
     about = db.Column(db.String(255), nullable=False)
 
+    events = db.relationship(
+        'Event', secondary='enrollments', back_populates='participants'
+    )
+
 
 class Location(db.Model):
     __tablename__ = 'locations'
@@ -79,3 +83,15 @@ class Event(db.Model):
     locations = db.relationship(
         'Location', secondary=events_locations_association, back_populates='events'
     )
+
+    participants = db.relationship(
+        'Participant', secondary='enrollments', back_populates='events'
+    )
+
+
+class Enrollment(db.Model):
+    __tablename__ = 'enrollments'
+
+    event_id = db.Column(db.Integer, db.ForeignKey('events.id'), primary_key=True)
+    participant_id = db.Column(db.Integer, db.ForeignKey('participants.id'), primary_key=True)
+    timestamp = db.Column(db.DateTime, nullable=False)

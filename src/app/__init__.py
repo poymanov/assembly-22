@@ -21,3 +21,4 @@ from app.views.v1.locations import *
 from app.views.v1.events import *
 from app.views.v1.event_types import *
 from app.views.v1.event_categories import *
+from app.views.v1.enrollments import *

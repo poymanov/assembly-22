@@ -53,3 +53,7 @@ def build_event_category(event_category):
 
 def build_error():
     return dict(status='error')
+
+
+def build_success():
+    return dict(status='success')
