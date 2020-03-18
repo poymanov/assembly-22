@@ -11,4 +11,13 @@ def events():
 
 @app.route('/api/v1/events/<event_id>', methods=['GET'])
 def event(event_id):
-    return jsonify(json_response.build_event(events_service.get_by_id(event_id)))
+    event_item = events_service.get_by_id(event_id)
+
+    if event_item is None:
+        result = json_response.build_error()
+        status = 404
+    else:
+        result = json_response.build_event(event_item)
+        status = 200
+
+    return jsonify(result), status

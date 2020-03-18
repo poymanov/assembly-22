@@ -10,10 +10,12 @@ import app.services.json_response as json_response
 def add_participant(event_id):
     if enrollments_service.add_participant(event_id, get_jwt_identity()):
         result = json_response.build_success()
+        status = 200
     else:
         result = json_response.build_error()
+        status = 404
 
-    return jsonify(result)
+    return jsonify(result), status
 
 
 @app.route('/api/v1/enrollments/<event_id>', methods=['DELETE'])
@@ -21,7 +23,9 @@ def add_participant(event_id):
 def delete_participant(event_id):
     if enrollments_service.delete_participant(event_id, get_jwt_identity()):
         result = json_response.build_success()
+        status = 200
     else:
         result = json_response.build_error()
+        status = 404
 
-    return jsonify(result)
+    return jsonify(result), status

@@ -11,4 +11,13 @@ def locations():
 
 @app.route('/api/v1/locations/<location_id>', methods=['GET'])
 def location(location_id):
-    return jsonify(json_response.build_location(locations_service.get_by_id(location_id)))
+    location_item = locations_service.get_by_id(location_id)
+
+    if location_item is None:
+        result = json_response.build_error()
+        status = 404
+    else:
+        result = json_response.build_location(location_item)
+        status = 200
+
+    return jsonify(result), status

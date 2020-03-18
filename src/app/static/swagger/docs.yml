@@ -1,0 +1,473 @@
+openapi: 3.0.0
+info:
+  title: 'Assembly 22 API'
+  version: '1.0'
+paths:
+  /api/v1/register:
+    post:
+      tags:
+        - participants
+      summary: 'Регистрация участника'
+      parameters:
+        -
+          name: name
+          in: query
+          description: 'Фамилия и имя'
+          required: true
+          schema:
+            type: string
+        -
+          name: email
+          in: query
+          description: 'Email'
+          required: true
+          schema:
+            type: string
+        -
+          name: location
+          in: query
+          description: 'Город или место'
+          required: true
+          schema:
+            type: string
+        -
+          name: about
+          in: query
+          description: 'Информация о себе'
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Успешная регистрация'
+          content:
+            application/json:
+              schema:
+                properties:
+                  about: { type: string, example: 'test' }
+                  email: { type: string, example: 'test@test.ru' }
+                  id: { type: integer, example: 2 }
+                  location: { type: string, example: 'test' }
+                  name: { type: string, example: 'test' }
+                  password: { type: string, example: '7OBw!)Rh' }
+                  picture: { type: string, example: null }
+                type: object
+        '422':
+          description: 'Email уже зарегистрирован / не хватает обязательных параметров'
+          content:
+            application/json:
+              schema:
+                properties:
+                  status: { type: string, example: 'error' }
+                type: object
+  /api/v1/login:
+    post:
+      tags:
+        - participants
+      summary: 'Аутентификация участника'
+      parameters:
+        -
+          name: email
+          in: query
+          description: 'Email'
+          required: true
+          schema:
+            type: string
+        -
+          name: password
+          in: query
+          description: 'Пароль'
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Успешная аутентификация'
+          content:
+            application/json:
+              schema:
+                properties:
+                  about: { type: string, example: 'test' }
+                  access_token: { type: string, example: 'eyJ0eXAiOiJKV1' }
+                  email: { type: string, example: 'test@test.ru' }
+                  id: { type: integer, example: 2 }
+                  location: { type: string, example: 'test' }
+                  name: { type: string, example: 'test' }
+                  picture: { type: string, example: null }
+                type: object
+        '422':
+          description: 'Ошибка аутентификации'
+          content:
+            application/json:
+              schema:
+                properties:
+                  status: { type: string, example: 'error' }
+                type: object
+  /api/v1/profile/{id}:
+    get:
+      tags:
+        - participants
+      summary: 'Получение профиля участника'
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'id'
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'Успешное получение профиля'
+          content:
+            application/json:
+              schema:
+                properties:
+                  about: { type: string, example: 'test' }
+                  email: { type: string, example: 'test@test.ru' }
+                  id: { type: integer, example: 2 }
+                  location: { type: string, example: 'test' }
+                  name: { type: string, example: 'test' }
+                  picture: { type: string, example: null }
+                type: object
+        '404':
+          description: 'Попытка получения профиля несуществующего пользователя'
+          content:
+            application/json:
+              schema:
+                properties:
+                  status: { type: string, example: 'error' }
+                type: object
+  /api/v1/types:
+    get:
+      tags:
+        - types
+      summary: 'Получение типов событий'
+      responses:
+        '200':
+          description: 'Успешное получение списка типов событий'
+          content:
+            application/json:
+              schema:
+                items:
+                  properties:
+                    code: { type: string, example: 'test' }
+                    id: { type: integer, example: 1 }
+                    title: { type: string, example: 'test' }
+                  type: object
+  /api/v1/types/{id}:
+    get:
+      tags:
+        - types
+      summary: 'Получение типа события'
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'id'
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'Успешное получение типа события'
+          content:
+            application/json:
+              schema:
+                properties:
+                  code: { type: string, example: 'test' }
+                  id: { type: integer, example: 1 }
+                  title: { type: string, example: 'test' }
+                type: object
+        '404':
+          description: 'Попытка получения несуществующего типа события'
+          content:
+            application/json:
+              schema:
+                properties:
+                  status: { type: string, example: 'error' }
+                type: object
+  /api/v1/locations:
+    get:
+      tags:
+        - locations
+      summary: 'Получение мест проведения событий'
+      responses:
+        '200':
+          description: 'Успешное получение мест проведения событий'
+          content:
+            application/json:
+              schema:
+                items:
+                  properties:
+                    code: { type: string, example: 'test' }
+                    id: { type: integer, example: 1 }
+                    title: { type: string, example: 'test' }
+                  type: object
+  /api/v1/locations/{id}:
+    get:
+      tags:
+        - locations
+      summary: 'Получение места проведения событий'
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'id'
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'Успешное получение места проведения событий'
+          content:
+            application/json:
+              schema:
+                properties:
+                  code: { type: string, example: 'test' }
+                  id: { type: integer, example: 1 }
+                  title: { type: string, example: 'test' }
+                type: object
+        '404':
+          description: 'Попытка получения несуществующего места проведения событий'
+          content:
+            application/json:
+              schema:
+                properties:
+                  status: { type: string, example: 'error' }
+                type: object
+  /api/v1/categories:
+    get:
+      tags:
+        - categories
+      summary: 'Получение категорий событий'
+      responses:
+        '200':
+          description: 'Успешное получение категорий событий'
+          content:
+            application/json:
+              schema:
+                items:
+                  properties:
+                    code: { type: string, example: 'test' }
+                    id: { type: integer, example: 1 }
+                    title: { type: string, example: 'test' }
+                  type: object
+  /api/v1/categories/{id}:
+    get:
+      tags:
+        - categories
+      summary: 'Получение категории события'
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'id'
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'Успешное получение категории событий'
+          content:
+            application/json:
+              schema:
+                properties:
+                  code: { type: string, example: 'test' }
+                  id: { type: integer, example: 1 }
+                  title: { type: string, example: 'test' }
+                type: object
+        '404':
+          description: 'Попытка получения несуществующей категории событий'
+          content:
+            application/json:
+              schema:
+                properties:
+                  status: { type: string, example: 'error' }
+                type: object
+  /api/v1/events:
+    get:
+      tags:
+        - events
+      summary: 'Получение событий'
+      parameters:
+        -
+          name: type_id
+          in: query
+          description: 'Идентификатор типа события'
+          required: false
+          schema:
+            type: integer
+        -
+          name: location_id
+          in: query
+          description: 'Идентификатор места проведения события'
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'Успешное получение событий'
+          content:
+            application/json:
+              schema:
+                items:
+                  properties:
+                    address: { type: string, example: '' }
+                    categories: { type: array, items: { properties: { code: {type: string, example: 'test' }, id: {type: integer, example: 1 }, title: {type: string, example: 'test' }}, type: object }}
+                    date: { type: string, example: '2020-02-26' }
+                    description: { type: string, example: 'Description' }
+                    id: { type: integer, example: 1 }
+                    locations: { type: array, items: { properties: { code: {type: string, example: 'test' }, id: {type: integer, example: 1 }, title: {type: string, example: 'test' }}, type: object }}
+                    seats: { type: integer, example: 10 }
+                    time: { type: string, example: '13:00:00' }
+                    title: { type: string, example: 'test' }
+                    type: { type: array, items: { properties: { code: {type: string, example: 'test' }, id: {type: integer, example: 1 }, title: {type: string, example: 'test' }}, type: object }}
+                  type: object
+  /api/v1/events/{id}:
+    get:
+      tags:
+        - events
+      summary: 'Получение события'
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'Идентификатор события'
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'Успешное получение события'
+          content:
+            application/json:
+              schema:
+                properties:
+                  address: { type: string, example: '' }
+                  categories: { type: array, items: { properties: { code: {type: string, example: 'test' }, id: {type: integer, example: 1 }, title: {type: string, example: 'test' }}, type: object }}
+                  date: { type: string, example: '2020-02-26' }
+                  description: { type: string, example: 'Description' }
+                  id: { type: integer, example: 1 }
+                  locations: { type: array, items: { properties: { code: {type: string, example: 'test' }, id: {type: integer, example: 1 }, title: {type: string, example: 'test' }}, type: object }}
+                  seats: { type: integer, example: 10 }
+                  time: { type: string, example: '13:00:00' }
+                  title: { type: string, example: 'test' }
+                  type: { type: array, items: { properties: { code: {type: string, example: 'test' }, id: {type: integer, example: 1 }, title: {type: string, example: 'test' }}, type: object }}
+                type: object
+        '404':
+          description: 'Попытка получения несуществующего события'
+          content:
+            application/json:
+              schema:
+                properties:
+                  status: { type: string, example: 'error' }
+                type: object
+  /api/v1/enrollments/{id}:
+    post:
+      tags:
+        - enrollments
+      summary: 'Запись на событие'
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'Идентификатор события'
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'Успешная запись на событие'
+          content:
+            application/json:
+              schema:
+                properties:
+                  status: { type: string, example: 'success' }
+                type: object
+        '404':
+          description: 'Событие или пользователь не существуют'
+          content:
+            application/json:
+              schema:
+                properties:
+                  status: { type: string, example: 'error' }
+                type: object
+      security:
+        -
+          bearerAuth: []
+    delete:
+      tags:
+        - enrollments
+      summary: 'Удаление записи на событие'
+      parameters:
+        -
+          name: id
+          in: path
+          description: 'Идентификатор события'
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'Запись на событие успешно удалена'
+          content:
+            application/json:
+              schema:
+                properties:
+                  status: { type: string, example: 'success' }
+                type: object
+        '404':
+          description: 'Событие или пользователь не существуют'
+          content:
+            application/json:
+              schema:
+                properties:
+                  status: { type: string, example: 'error' }
+                type: object
+      security:
+        -
+          bearerAuth: []
+  /api/v1:
+    get:
+      tags:
+        - common
+      summary: 'Статус API'
+      responses:
+        '200':
+          description: 'Версия и текущее состояние API'
+          content:
+            application/json:
+              schema:
+                properties:
+                  status: { type: string, example: 'ok' }
+                  version: { type: string, example: '1.0' }
+                type: object
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      bearerFormat: JWT
+      scheme: bearer
+tags:
+  -
+    name: common
+    description: 'Общие методы'
+  -
+    name: participants
+    description: 'Работа с участниками'
+  -
+    name: locations
+    description: 'Работа с местами проведения событий'
+  -
+    name: types
+    description: 'Типы событий'
+  -
+    name: categories
+    description: 'Категории событий'
+  -
+    name: events
+    description: 'События'
+  -
+    name: enrollments
+    description: 'Записи на события'

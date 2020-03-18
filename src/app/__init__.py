@@ -17,6 +17,7 @@ migrate = Migrate(app, db)
 
 jwt = JWTManager(app)
 
+from app.views.common import *
 from app.views.v1.participants import *
 from app.views.v1.locations import *
 from app.views.v1.events import *
